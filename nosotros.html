@@ -15,12 +15,20 @@
                <img src="build/img/logo.svg" alt="Logotipo de  Bienes Raices">
             </a>
 
-            <nav class="navegacion">
-               <a href="nosotros.html">Nosotros</a>
-               <a href="anuncios.html">Anuncios</a>
-               <a href="blog.html">Blog</a>
-               <a href="contacto.html">Contacto</a>
-            </nav>
+            <div class="mobile-menu">
+               <img src="build/img/barras.svg" alt="icono menu resposive">
+            </div>
+
+            <div class="derecha">
+               <img src="build/img/dark-mode.svg" alt="icono dark mode" class="dark-mode-boton">
+
+               <nav class="navegacion">
+                  <a href="nosotros.html">Nosotros</a>
+                  <a href="anuncios.html">Anuncios</a>
+                  <a href="blog.html">Blog</a>
+                  <a href="contacto.html">Contacto</a>
+               </nav>
+            </div>
          </div>  <!-- .barra -->
       </div>  <!-- .header -->
    </header>
@@ -30,10 +38,10 @@
 
       <div class="contenedor contenedor-nosotros">
          <div class="contenedor-imagen">
-            <picture>
+            <picture class="img-nosotros">
                <source srcset="build/img/nosotros.webp" type="image/webp">
                <source srcset="build/img/nosotros.jpg" type="image/jpeg">
-               <img loading="lazy" src="build/img/nosotros.jpg" alt="anuncio">
+               <img loading="lazy" src="build/img/nosotros.jpg" alt="anuncio" class="img-nosotros">
             </picture>
          </div>
 

@@ -10,13 +10,18 @@
       color: $gris;
    }
 
-   .anuncio {
+   .anuncio,
+   .resumen-propiedad {
       background-color: $grisOscuro;
 
       .precio {
          color: $verde;
       }
    }
+
+   // label {
+   //    color: $blanco;
+   // }
 
    .icono_anuncio {
       filter: invert(100%);
@@ -25,4 +30,21 @@
    .numero {
       color: $amarillo;
    }
+
+   .formulario {
+      label, legend, p {
+         color: $gris;
+      }
+
+      input:not([type="submit"]),
+      textarea,
+      select {
+         background-color: $grisOscuro;
+         border: 1px solid $gris;
+         color: $blanco;
+      }
+   }
 }
+
+
+
