@@ -2,6 +2,8 @@
 document.addEventListener('DOMContentLoaded', function() {
 
    eventListeners()
+
+   darkMode()
 })
 
 function eventListeners() {
@@ -19,4 +21,13 @@ function navegacionResponsive() {
    // } else {
    //    navegacion.classList.add('mostrar')
    // }  es lo mismo que con toogle
+}
+
+function darkMode() {
+   const botonDarkMode = document.querySelector('.dark-mode-boton');
+   botonDarkMode.addEventListener('click', toggleDarkMode)
+}
+
+function toggleDarkMode() {
+   document.body.classList.toggle('dark-mode')
 }

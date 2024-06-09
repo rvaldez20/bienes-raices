@@ -5,6 +5,11 @@
 
    .contenido-footer {
       padding-top: 1.5rem;
+      display: none;
+
+      @include tablet {
+         display: block;
+      }
    }
 
    .copyright {
