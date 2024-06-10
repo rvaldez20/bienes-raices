@@ -1,59 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Bienes Raices</title>
-   <link rel="stylesheet" href="build/css/app.css">
-</head>
-<body>
-   <!-- HEADER -->
-   <header class="header inicio">
-      <div class="contenedor contenido-header">
-         <div class="barra">
-            <a href="/">
-               <img src="build/img/logo.svg" alt="Logotipo de  Bienes Raices">
-            </a>
+<?php
+   require 'includes/funciones.php';
 
-            <div class="mobile-menu">
-               <img src="build/img/barras.svg" alt="icono menu resposive">
-            </div>
-
-            <div class="derecha">
-               <img src="build/img/dark-mode.svg" alt="icono dark mode" class="dark-mode-boton">
-
-               <nav class="navegacion">
-                  <a href="nosotros.html">Nosotros</a>
-                  <a href="anuncios.html">Anuncios</a>
-                  <a href="blog.html">Blog</a>
-                  <a href="contacto.html">Contacto</a>
-               </nav>
-            </div>
-
-         </div>  <!-- .barra -->
-         <h1>Venta de Casas y Departamentos Exclusivos de Lujo</h1>
-      </div>  <!-- .header -->
-   </header>
+   // include 'includes/templates/header.php';
+   incluirTemplate('header', $inicio = true);
+?>
 
    <main class="contenedor seccion">
-      <h1>Más Sobre Nosotros</h1>
+      <h1>Más Sobre Nosotros <?php echo $var; ?> </h1>
 
       <!-- ICONOS-NOSOTROS -->
       <div class="iconos-nosotros">
          <div class="icono">
-            <img src="/build/img/icono1.svg" alt="icono seguridad" loading="lazy">
+            <img src="build/img/icono1.svg" alt="icono seguridad" loading="lazy">
             <h3>Seguridad</h3>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores in dolorum cupiditate asperiores et, illo quibusdam vel assumenda facere quos obcaecati eum quae cum ipsam accusantium natus nemo nam</p>
          </div>
 
          <div class="icono">
-            <img src="/build/img/icono2.svg" alt="icono precio" loading="lazy">
+            <img src="build/img/icono2.svg" alt="icono precio" loading="lazy">
             <h3>Precio</h3>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores in dolorum cupiditate asperiores et, illo quibusdam vel assumenda facere quos obcaecati eum quae cum ipsam accusantium natus nemo nam</p>
          </div>
 
          <div class="icono">
-            <img src="/build/img/icono3.svg" alt="icono tiempo" loading="lazy">
+            <img src="build/img/icono3.svg" alt="icono tiempo" loading="lazy">
             <h3>A Tiempo</h3>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores in dolorum cupiditate asperiores et, illo quibusdam vel assumenda facere quos obcaecati eum quae cum ipsam accusantium natus nemo nam</p>
          </div>
@@ -242,19 +212,6 @@
       </section>
    </div>
 
-   <footer class="footer seccion">
-      <div class="contenedor contenido-footer">
-         <nav class="navegacion">
-            <a href="nosotros.html">Nosotros</a>
-            <a href="anuncios.html">Anuncios</a>
-            <a href="blog.html">Blog</a>
-            <a href="contacto.html">Contacto</a>
-         </nav>
-      </div>
-      <p class="copyright">Todos los Derechos Reservados 2024 &copy;</p>
-   </footer>
-
-
-   <script src="build/js/bundle.min.js"></script>
-</body>
-</html>
+<?php
+   include 'includes/templates/footer.php';
+?>
