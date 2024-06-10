@@ -86,7 +86,7 @@
                </picture>
 
                <div class="contenido-anuncio">
-                  <h3>Casa con Alberca</h3>
+                  <h3>Casa con Alberca de Lujo</h3>
                   <p>Casa en Lago con excelente vista, acabados de lujo aun excelente precio</p>
                   <p class="precio">$3,000,000.00</p>
 
@@ -191,7 +191,7 @@
                </picture>
 
                <div class="contenido-anuncio">
-                  <h3>Casa con Alberca</h3>
+                  <h3>Casa con Alberca de Lujo</h3>
                   <p>Casa en Lago con excelente vista, acabados de lujo aun excelente precio</p>
                   <p class="precio">$3,000,000.00</p>
 
@@ -221,7 +221,6 @@
       </section>
    </main>
 
-
 <?php
-   include 'includes/templates/footer.php';
+   incluirTemplate('footer');
 ?>
