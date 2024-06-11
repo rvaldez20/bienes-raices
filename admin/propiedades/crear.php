@@ -44,6 +44,7 @@
       } else {
          $_POST["vendedores_Id"] = '';
       }
+      $creado = date('Y/m/d');
 
 
       // validamos que se ingrese información en cada campo
@@ -77,12 +78,13 @@
       // revisar que el array de errores este vacio
       if(empty($errores)) {
          // inserta en la base de datos
-         $query = "INSERT INTO propiedades(titulo, precio, descripcion, habitaciones, wc, estacionamiento, vendedores_Id) VALUES('$titulo', '$precio', '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$vendedores_Id');";
+         $query = "INSERT INTO propiedades(titulo, precio, descripcion, habitaciones, wc, estacionamiento, creado, vendedores_Id) VALUES('$titulo', '$precio', '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$creado', '$vendedores_Id');";
          // echo $query;
 
          $res = mysqli_query($db, $query);
          if($res) {
-            echo "Propiedad creada correctamente";
+            // redireccionar al usuario
+            header('Location: /admin');
          }
       }
 
