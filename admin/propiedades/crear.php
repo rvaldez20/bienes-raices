@@ -4,8 +4,26 @@
    require '../../includes/config/database.php';
    $db = conectarDB();
 
+   // consulta para obtener los vendedores
+   $queryAllVendedores = "SELECT * FROM vendedores;";
+   $resVendedores = mysqli_query($db, $queryAllVendedores);
+
+   // echo "<pre>";
+   // var_dump($res);
+   // echo "</pre>";
+   // exit;
+
    // array con mensjes de errores
    $errores = [];
+
+   // variables para guardar valroes previos
+   $titulo ='' ;
+   $precio ='' ;
+   $descripcion ='' ;
+   $habitaciones ='' ;
+   $wc ='' ;
+   $estacionamiento ='' ;
+   $vendedores_Id ='';
 
    // ejecuta el codigo despues de que se envia el formulario
    if($_SERVER["REQUEST_METHOD"] === 'POST') {
@@ -20,7 +38,7 @@
       $wc = $_POST["wc"];
       $estacionamiento = $_POST["estacionamiento"];
       // validacion para $vendedores_Id
-      $vendedores_Id = '';
+      // $vendedores_Id = '';
       if( isset($_POST["vendedores_Id"]) ) {
          $vendedores_Id = $_POST["vendedores_Id"];
       } else {
@@ -94,29 +112,29 @@
             <legend>Información General</legend>
 
             <label for="titulo">Titulo</label>
-            <input type="text" id="titulo" name="titulo" placeholder="Titulo Propiedad">
+            <input type="text" id="titulo" name="titulo" value="<?php echo $titulo ?>" placeholder="Titulo Propiedad">
 
             <label for="precio">Precio</label>
-            <input type="number" id="precio" name="precio" placeholder="Precio  Propiedad">
+            <input type="number" id="precio" name="precio" value="<?php echo $precio ?>" placeholder="Precio  Propiedad">
 
             <label for="imagen">Precio</label>
             <input type="file" id="imagen" accept="image/jpeg, image/png">
 
             <label for="descripcion">Descripción</label>
-            <textarea id="descripcion" name="descripcion"></textarea>
+            <textarea id="descripcion" name="descripcion"><?php echo $descripcion ?></textarea>
          </fieldset>
 
          <fieldset>
             <legend>Información de la Propiedad</legend>
 
             <label for="habitaciones">habitaciones</label>
-            <input type="number" id="habitaciones" name="habitaciones" placeholder="Ej: 3" min="1" max="9">
+            <input type="number" id="habitaciones" name="habitaciones" value="<?php echo $habitaciones ?>" placeholder="Ej: 3" min="1" max="9">
 
             <label for="wc">Baños</label>
-            <input type="number" id="wc" name="wc" placeholder="Ej: 3" min="1" max="9">
+            <input type="number" id="wc" name="wc" value="<?php echo $wc ?>" placeholder="Ej: 3" min="1" max="9">
 
             <label for="estacionamiento">Etacionamiento</label>
-            <input type="number" id="estacionamiento" name="estacionamiento" placeholder="Ej: 3" min="1" max="9">
+            <input type="number" id="estacionamiento" name="estacionamiento" value="<?php echo $estacionamiento ?>" placeholder="Ej: 3" min="1" max="9">
          </fieldset>
 
          <fieldset>
@@ -124,8 +142,9 @@
 
             <select name="vendedores_Id">
                <option value="" disabled selected>-- Seleccione un Vendedor --</option>
-               <option value="1">Juan</option>
-               <option value="2">Karen</option>
+               <?php while($row = mysqli_fetch_assoc($resVendedores)): ?>
+                  <option <?php echo $vendedores_Id === $row['id'] ? 'selected' : ''; ?> value="<?php echo $row["id"]; ?>"><?php echo $row["nombre"] . " " . $row["apellido"]; ?></option>
+               <?php endwhile ?>
             </select>
          </fieldset>
 
