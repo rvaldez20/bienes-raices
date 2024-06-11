@@ -28,19 +28,15 @@
    // ejecuta el codigo despues de que se envia el formulario
    if($_SERVER["REQUEST_METHOD"] === 'POST') {
 
-      // $numero = "1HOLA2X3";
-      // $numero2 = 1;
-
-      // sanitizar
-      // $result = filter_var($numero, FILTER_SANITIZE_STRING);
-      // echo "<pre>";
-      // var_dump($result);
-      // echo "</pre>";
-      // exit;
-
       // echo "<pre>";
       // var_dump($_POST);
       // echo "</pre>";
+
+      // echo "<pre>";
+      // var_dump($_FILES);
+      // echo "</pre>";
+
+
 
       $titulo = mysqli_real_escape_string($db, $_POST["titulo"]);
       $precio = mysqli_real_escape_string($db, $_POST["precio"]);
@@ -56,6 +52,9 @@
          $_POST["vendedores_Id"] = '';
       }
       $creado = date('Y/m/d');
+
+      // asignar files hacia una variable
+      $imagen = $_FILES['imagen'];
 
 
       // validamos que se ingrese información en cada campo
@@ -80,6 +79,17 @@
       if(!$vendedores_Id && isset($vendedores_Id)) {
          $errores[] = "Es necesario elegir un vendedor";
       }
+      if(!$imagen['name'] || $imagen['error']) {
+         $errores[] = "La imagen es obligatoria";
+      }
+
+      // validar el tamaño de la imagen (1 mb maximo)
+      // y si la imagen supera el maximo configurado en PHP erro sera 1 => $imagen['error'] = 1
+      $medida = 10000 * 100;
+
+      if($imagen['size'] > $medida) {
+         $errores[] = "Tamaño de la imagen supera el maximo permitido";
+      }
 
       // echo "<pre>";
       // var_dump($errores);
@@ -88,8 +98,37 @@
 
       // revisar que el array de errores este vacio
       if(empty($errores)) {
+         /** SUBIDA DE ARCHIVOS */
+
+         // Crear la rura del directorio de las imagenes (sera la raiz)
+         $carpetaImagenes= '../../imagenes/';
+
+         // verificamo si no existe la creamos (se verica con is_dir())
+         if(!is_dir($carpetaImagenes)) {
+            mkdir($carpetaImagenes);
+         }
+
+         // crear un nombre unico para cada imagen
+         $nombreImagen = md5(uniqid(rand(), true));
+
+         // detectar la extension de la imagen
+         if($imagen['type'] === "image/jpeg") {
+            $extensionImagen = ".jpg";
+            $nombreImagenDB = $nombreImagen . '.jpg';
+         } else {
+            $extensionImagen = ".png";
+            $nombreImagenDB = $nombreImagen . '.png';
+         }
+
+         // Subir la imagen al servidor
+         move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen .  $extensionImagen);
+
+         // var_dump($carpetaImagenes . $nombreImagen . $extensionImagen);
+         // exit;
+
+
          // inserta en la base de datos
-         $query = "INSERT INTO propiedades(titulo, precio, descripcion, habitaciones, wc, estacionamiento, creado, vendedores_Id) VALUES('$titulo', '$precio', '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$creado', '$vendedores_Id');";
+         $query = "INSERT INTO propiedades(titulo, precio, imagen, descripcion, habitaciones, wc, estacionamiento, creado, vendedores_Id) VALUES('$titulo', '$precio', '$nombreImagenDB', '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$creado', '$vendedores_Id');";
          // echo $query;
 
          $res = mysqli_query($db, $query);
@@ -118,7 +157,7 @@
 
       <a href="/admin" class="boton-amarillo">Volver al Admin</a>
 
-      <form class="formulario" method="POST" action="/admin/propiedades/crear.php">
+      <form class="formulario" method="POST" action="/admin/propiedades/crear.php" enctype="multipart/form-data">
          <fieldset>
             <legend>Información General</legend>
 
@@ -129,7 +168,7 @@
             <input type="number" id="precio" name="precio" value="<?php echo $precio ?>" placeholder="Precio  Propiedad">
 
             <label for="imagen">Precio</label>
-            <input type="file" id="imagen" accept="image/jpeg, image/png">
+            <input type="file" id="imagen" accept="image/jpeg, image/png" name="imagen">
 
             <label for="descripcion">Descripción</label>
             <textarea id="descripcion" name="descripcion"><?php echo $descripcion ?></textarea>
