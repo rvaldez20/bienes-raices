@@ -27,20 +27,31 @@
 
    // ejecuta el codigo despues de que se envia el formulario
    if($_SERVER["REQUEST_METHOD"] === 'POST') {
+
+      // $numero = "1HOLA2X3";
+      // $numero2 = 1;
+
+      // sanitizar
+      // $result = filter_var($numero, FILTER_SANITIZE_STRING);
+      // echo "<pre>";
+      // var_dump($result);
+      // echo "</pre>";
+      // exit;
+
       // echo "<pre>";
       // var_dump($_POST);
       // echo "</pre>";
 
-      $titulo = $_POST["titulo"];
-      $precio = $_POST["precio"];
-      $descripcion = $_POST["descripcion"];
-      $habitaciones = $_POST["habitaciones"];
-      $wc = $_POST["wc"];
-      $estacionamiento = $_POST["estacionamiento"];
+      $titulo = mysqli_real_escape_string($db, $_POST["titulo"]);
+      $precio = mysqli_real_escape_string($db, $_POST["precio"]);
+      $descripcion = mysqli_real_escape_string($db, $_POST["descripcion"]);
+      $habitaciones = mysqli_real_escape_string($db, $_POST["habitaciones"]);
+      $wc = mysqli_real_escape_string($db, $_POST["wc"]);
+      $estacionamiento = mysqli_real_escape_string($db, $_POST["estacionamiento"]);
       // validacion para $vendedores_Id
       // $vendedores_Id = '';
       if( isset($_POST["vendedores_Id"]) ) {
-         $vendedores_Id = $_POST["vendedores_Id"];
+         $vendedores_Id = mysqli_real_escape_string($db, $_POST["vendedores_Id"]);
       } else {
          $_POST["vendedores_Id"] = '';
       }
@@ -86,10 +97,8 @@
             // redireccionar al usuario
             header('Location: /admin');
          }
-      }
-
-
-   }
+      }  // if(empty($errores))
+   }  // if($_SERVER["REQUEST_METHOD"] === 'POST')
 
 
 
