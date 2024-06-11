@@ -1,11 +1,20 @@
 <?php
+   // Base de datos conexion
+   require '../includes/config/database.php';
+   $db = conectarDB();
 
+   // consulta SQL
+   $query = "SELECT * FROM propiedades;";
+
+   // consyultar la DB
+   $resQuery = mysqli_query($db, $query);
+
+   //mensaje condicional
    $resultado = $_GET["resultado"] ?? null;  //checamos si esta esta establecido reusltado
 
+   // Incluye el template
    require '../includes/funciones.php';
    incluirTemplate('header');
-
-   // require '../../includes/templates/header.php'
 ?>
 
    <main class="contenedor seccion">
@@ -29,22 +38,25 @@
          </thead>
 
          <tbody>
-            <tr>
-               <td>1</td>
-               <td>Casa en la palya</td>
-               <td><img src="/imagenes/072b975ee658d53f7f2c7184de9cd11a.jpg" alt="imagen propiedad" class="imagen-tabla"></td>
-               <td>$200,000</td>
+            <?php while($propiedad = mysqli_fetch_assoc($resQuery)): ?>
+               <tr>
+               <td><?php echo $propiedad["id"]; ?></td>
+               <td><?php echo $propiedad["titulo"]; ?></td>
+               <td><img src="/imagenes/<?php echo $propiedad["imagen"]; ?>" alt="imagen propiedad" class="imagen-tabla"></td>
+               <td>$ <?php echo number_format($propiedad["precio"], 2, '.', ','); ?></td>
                <td>
                   <a href="#" class="boton-rojo-block">Eliminar</a>
                   <a href="#" class="boton-amarillo-block">Actualizar</a>
                </td>
-            </tr>
+               </tr>
+            <?php endwhile; ?>
          </tbody>
-
       </table>
-
    </main>
 
 <?php
+   // cerrar conxion DB
+   mysqli_close($db);
+
    incluirTemplate('footer');
 ?>
