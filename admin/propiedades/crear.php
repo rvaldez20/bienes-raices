@@ -134,7 +134,7 @@
          $res = mysqli_query($db, $query);
          if($res) {
             // redireccionar al usuario
-            header('Location: /admin');
+            header('Location: /admin?resultado=1');
          }
       }  // if(empty($errores))
    }  // if($_SERVER["REQUEST_METHOD"] === 'POST')
