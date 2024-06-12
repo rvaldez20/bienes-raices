@@ -1,4 +1,12 @@
 <?php
+   session_start();
+
+   $auth = $_SESSION['login'];
+
+   if(!$auth) {
+      header('Location: /');
+   }
+
 
    // Validamos si no es un id valido redireccionamos al admin
    $id = $_GET["id"];
