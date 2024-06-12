@@ -29,7 +29,7 @@
    $errores = [];
 
    // variables para guardar valroes previos
-   $titulo = $propiedad["id"];
+   $titulo = $propiedad["titulo"];
    $precio =$propiedad["precio"] ;
    $descripcion =$propiedad["descripcion"] ;
    $habitaciones =$propiedad["habitaciones"] ;
@@ -44,12 +44,7 @@
       // echo "<pre>";
       // var_dump($_POST);
       // echo "</pre>";
-
-      // echo "<pre>";
-      // var_dump($_FILES);
-      // echo "</pre>";
-
-
+      // exit;
 
       $titulo = mysqli_real_escape_string($db, $_POST["titulo"]);
       $precio = mysqli_real_escape_string($db, $_POST["precio"]);
@@ -58,16 +53,17 @@
       $wc = mysqli_real_escape_string($db, $_POST["wc"]);
       $estacionamiento = mysqli_real_escape_string($db, $_POST["estacionamiento"]);
       // validacion para $vendedores_Id
-      // $vendedores_Id = '';
       if( isset($_POST["vendedores_Id"]) ) {
          $vendedores_Id = mysqli_real_escape_string($db, $_POST["vendedores_Id"]);
       } else {
          $_POST["vendedores_Id"] = '';
       }
+      // se asigna la fecha actual para el campo craedo
       $creado = date('Y/m/d');
 
       // asignar files hacia una variable
       $imagen = $_FILES['imagen'];
+      // var_dump($imagen);
 
 
       // validamos que se ingrese información en cada campo
@@ -92,62 +88,54 @@
       if(!$vendedores_Id && isset($vendedores_Id)) {
          $errores[] = "Es necesario elegir un vendedor";
       }
-      if(!$imagen['name'] || $imagen['error']) {
-         $errores[] = "La imagen es obligatoria";
-      }
+      // la imagen ya no es obligatoria, si no la actualiza se queda la que tenia
+      // if(!$imagen['name'] || $imagen['error']) {
+      //    $errores[] = "La imagen es obligatoria";
+      // }
 
       // validar el tamaño de la imagen (1 mb maximo)
       // y si la imagen supera el maximo configurado en PHP erro sera 1 => $imagen['error'] = 1
       $medida = 10000 * 100;
-
       if($imagen['size'] > $medida) {
          $errores[] = "Tamaño de la imagen supera el maximo permitido";
       }
 
-      // echo "<pre>";
-      // var_dump($errores);
-      // echo "</pre>";
-      // exit;
-
       // revisar que el array de errores este vacio
       if(empty($errores)) {
          /** SUBIDA DE ARCHIVOS */
+         // // Crear la rura del directorio de las imagenes (sera la raiz)
+         // $carpetaImagenes= '../../imagenes/';
 
-         // Crear la rura del directorio de las imagenes (sera la raiz)
-         $carpetaImagenes= '../../imagenes/';
+         // // verificamo si no existe el directorio que creamos (se verifica con is_dir())
+         // if(!is_dir($carpetaImagenes)) {
+         //    mkdir($carpetaImagenes);
+         // }
 
-         // verificamo si no existe la creamos (se verica con is_dir())
-         if(!is_dir($carpetaImagenes)) {
-            mkdir($carpetaImagenes);
-         }
+         // // crear un nombre unico para cada imagen
+         // $nombreImagen = md5(uniqid(rand(), true));
 
-         // crear un nombre unico para cada imagen
-         $nombreImagen = md5(uniqid(rand(), true));
+         // // detectar la extension de la imagen
+         // if($imagen['type'] === "image/jpeg") {
+         //    $extensionImagen = ".jpg";
+         //    $nombreImagenDB = $nombreImagen . '.jpg';
+         // } else {
+         //    $extensionImagen = ".png";
+         //    $nombreImagenDB = $nombreImagen . '.png';
+         // }
 
-         // detectar la extension de la imagen
-         if($imagen['type'] === "image/jpeg") {
-            $extensionImagen = ".jpg";
-            $nombreImagenDB = $nombreImagen . '.jpg';
-         } else {
-            $extensionImagen = ".png";
-            $nombreImagenDB = $nombreImagen . '.png';
-         }
-
-         // Subir la imagen al servidor
-         move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen .  $extensionImagen);
-
-         // var_dump($carpetaImagenes . $nombreImagen . $extensionImagen);
-         // exit;
-
+         // // Subir la imagen al servidor
+         // move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen .  $extensionImagen);
 
          // inserta en la base de datos
-         $query = "INSERT INTO propiedades(titulo, precio, imagen, descripcion, habitaciones, wc, estacionamiento, creado, vendedores_Id) VALUES('$titulo', '$precio', '$nombreImagenDB', '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$creado', '$vendedores_Id');";
+         $query = "UPDATE propiedades SET titulo='$titulo', precio=$precio, descripcion='$descripcion', habitaciones=$habitaciones, wc=$wc, estacionamiento=$estacionamiento, vendedores_Id=$vendedores_Id WHERE id=$id;";
+
          // echo $query;
+         // exit;
 
          $res = mysqli_query($db, $query);
          if($res) {
             // redireccionar al usuario
-            header('Location: /admin?resultado=1');
+            header('Location: /admin?resultado=2');
          }
       }  // if(empty($errores))
    }  // if($_SERVER["REQUEST_METHOD"] === 'POST')
@@ -170,7 +158,8 @@
 
       <a href="/admin" class="boton-amarillo">Volver al Admin</a>
 
-      <form class="formulario" method="POST" action="/admin/propiedades/crear.php" enctype="multipart/form-data">
+      <!-- eliminamos el action para que lo renvie a este mismo formulario -->
+      <form class="formulario" method="POST" enctype="multipart/form-data">
          <fieldset>
             <legend>Información General</legend>
 

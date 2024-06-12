@@ -20,9 +20,12 @@
    <main class="contenedor seccion">
       <h1>Administrador de Bienes Raices</h1>
 
-      <?php if( intval($resultado) === 1):  ?>
+      <?php if(intval($resultado) === 1):  ?>
          <p class="alerta exito"><?php echo "Propiedad Registrada Correctamente"; ?></p>
+      <?php elseif(intval($resultado) === 2): ?>
+         <p class="alerta exito"><?php echo "Propiedad Actualizada Correctamente"; ?></p>
       <?php endif ?>
+
 
       <a href="/admin/propiedades/crear.php" class="boton-amarillo">Nueva Propiedad</a>
 
