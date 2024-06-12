@@ -37,10 +37,20 @@
             // Verificar si el password hasheado es correcto
             $auth = password_verify($password, $usuario['password']);
 
-            var_dump($auth);
+            // var_dump($auth);
 
             if($auth) {
                // el usuario se peude authenticar
+               session_start();
+
+               // llenar el arreglod e la sesion
+               $_SESSION['usuario'] = $usuario['email'];
+               $_SESSION['login'] = true;
+
+               // echo "<pre>";
+               // var_dump($_SESSION);
+               // echo "</pre>";
+
             } else {
                // el password es incorrecto
                $errores[] = "El password es incorrecto";
