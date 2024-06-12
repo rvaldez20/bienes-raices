@@ -12,6 +12,31 @@
    //mensaje condicional
    $resultado = $_GET["resultado"] ?? null;  //checamos si esta esta establecido reusltado
 
+   // eliminar propiedad
+   if($_SERVER["REQUEST_METHOD"] === 'POST') {
+      $id = $_POST["id"];
+      $id = filter_var($id, FILTER_VALIDATE_INT);
+
+      if($id) {
+         // ELIMINAMOS LA IMAGEN de la propiedad a eliminar
+         $queryDeleteImage = "SELECT imagen FROM propiedades WHERE id=$id";
+         $resDeleteImage = mysqli_query($db, $queryDeleteImage);
+         $propiedadImageName = mysqli_fetch_assoc($resDeleteImage);
+
+         unlink('../imagenes/' . $propiedadImageName["imagen"]);
+
+         // elimina el registro d ela propiedad
+         $queryDelete = "DELETE FROM propiedades WHERE id=$id;";
+         $resDelete = mysqli_query($db, $queryDelete);
+
+         if($resDelete) {
+            header('Location: /admin?resultado=3');
+         }
+      }
+
+      // var_dump($id);
+   }
+
    // Incluye el template
    require '../includes/funciones.php';
    incluirTemplate('header');
@@ -24,6 +49,8 @@
          <p class="alerta exito"><?php echo "Propiedad Registrada Correctamente"; ?></p>
       <?php elseif(intval($resultado) === 2): ?>
          <p class="alerta exito"><?php echo "Propiedad Actualizada Correctamente"; ?></p>
+      <?php elseif(intval($resultado) === 3): ?>
+         <p class="alerta error"><?php echo "Propiedad Eliminada Correctamente"; ?></p>
       <?php endif ?>
 
 
@@ -49,7 +76,12 @@
                <td>$ <?php echo number_format($propiedad["precio"], 2, '.', ','); ?></td>
                <td>
                   <a href="admin/propiedades/actualizar.php?id=<?php echo $propiedad["id"]; ?>" class="boton-amarillo-block">Actualizar</a>
-                  <a href="#" class="boton-rojo-block">Eliminar</a>
+
+                  <form method="POST" class="w-100">
+                     <input type="hidden" name="id" value="<?php echo $propiedad["id"]; ?>">
+
+                     <input type="submit" class="boton-rojo-block" value="Eliminar">
+                  </form>
                </td>
                </tr>
             <?php endwhile; ?>
