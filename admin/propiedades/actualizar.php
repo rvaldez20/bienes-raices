@@ -103,31 +103,42 @@
       // revisar que el array de errores este vacio
       if(empty($errores)) {
          /** SUBIDA DE ARCHIVOS */
-         // // Crear la rura del directorio de las imagenes (sera la raiz)
-         // $carpetaImagenes= '../../imagenes/';
 
-         // // verificamo si no existe el directorio que creamos (se verifica con is_dir())
-         // if(!is_dir($carpetaImagenes)) {
-         //    mkdir($carpetaImagenes);
-         // }
+         // Crear la rura del directorio de las imagenes (sera la raiz)
+         $carpetaImagenes= '../../imagenes/';
 
-         // // crear un nombre unico para cada imagen
-         // $nombreImagen = md5(uniqid(rand(), true));
+         // verificamo si no existe el directorio que creamos (se verifica con is_dir())
+         if(!is_dir($carpetaImagenes)) {
+            mkdir($carpetaImagenes);
+         }
 
-         // // detectar la extension de la imagen
-         // if($imagen['type'] === "image/jpeg") {
-         //    $extensionImagen = ".jpg";
-         //    $nombreImagenDB = $nombreImagen . '.jpg';
-         // } else {
-         //    $extensionImagen = ".png";
-         //    $nombreImagenDB = $nombreImagen . '.png';
-         // }
+         $nombreImagenDB = '';
 
-         // // Subir la imagen al servidor
-         // move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen .  $extensionImagen);
+         // validamos si $imagen["name"] tiene algo seleccionamos una nueva imagen
+         if($imagen["name"]) {
+            // eliminamos la imagen previa
+            unlink($carpetaImagenes . $propiedad["imagen"]);
+
+            // crear un nombre unico para cada imagen
+            $nombreImagen = md5(uniqid(rand(), true));
+
+            // detectar la extension de la imagen
+            if($imagen['type'] === "image/jpeg") {
+               $extensionImagen = ".jpg";
+               $nombreImagenDB = $nombreImagen . '.jpg';
+            } else {
+               $extensionImagen = ".png";
+               $nombreImagenDB = $nombreImagen . '.png';
+            }
+
+            // Subir la imagen al servidor
+            move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen .  $extensionImagen);
+         } else {
+            $nombreImagenDB = $propiedad["imagen"];
+         }
 
          // inserta en la base de datos
-         $query = "UPDATE propiedades SET titulo='$titulo', precio=$precio, descripcion='$descripcion', habitaciones=$habitaciones, wc=$wc, estacionamiento=$estacionamiento, vendedores_Id=$vendedores_Id WHERE id=$id;";
+         $query = "UPDATE propiedades SET titulo='$titulo', precio=$precio, imagen='$nombreImagenDB', descripcion='$descripcion', habitaciones=$habitaciones, wc=$wc, estacionamiento=$estacionamiento, vendedores_Id=$vendedores_Id WHERE id=$id;";
 
          // echo $query;
          // exit;
