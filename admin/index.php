@@ -45,8 +45,8 @@
                <td><img src="/imagenes/<?php echo $propiedad["imagen"]; ?>" alt="imagen propiedad" class="imagen-tabla"></td>
                <td>$ <?php echo number_format($propiedad["precio"], 2, '.', ','); ?></td>
                <td>
+                  <a href="admin/propiedades/actualizar.php?id=<?php echo $propiedad["id"]; ?>" class="boton-amarillo-block">Actualizar</a>
                   <a href="#" class="boton-rojo-block">Eliminar</a>
-                  <a href="#" class="boton-amarillo-block">Actualizar</a>
                </td>
                </tr>
             <?php endwhile; ?>
