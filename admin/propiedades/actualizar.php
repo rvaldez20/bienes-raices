@@ -1,12 +1,10 @@
 <?php
-   session_start();
-
-   $auth = $_SESSION['login'];
+   require '../../includes/funciones.php';
+   $auth = isAuth();
 
    if(!$auth) {
       header('Location: /');
    }
-
 
    // Validamos si no es un id valido redireccionamos al admin
    $id = $_GET["id"];
@@ -161,7 +159,7 @@
 
 
 
-   require '../../includes/funciones.php';
+
    incluirTemplate('header');
 ?>
 

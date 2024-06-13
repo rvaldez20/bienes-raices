@@ -37,8 +37,7 @@
             // Verificar si el password hasheado es correcto
             $auth = password_verify($password, $usuario['password']);
 
-            // var_dump($auth);
-
+            // authenticar el usario
             if($auth) {
                // el usuario se peude authenticar
                session_start();
@@ -47,10 +46,7 @@
                $_SESSION['usuario'] = $usuario['email'];
                $_SESSION['login'] = true;
 
-               // echo "<pre>";
-               // var_dump($_SESSION);
-               // echo "</pre>";
-
+               header('Location: /admin');
             } else {
                // el password es incorrecto
                $errores[] = "El password es incorrecto";
@@ -59,8 +55,6 @@
          } else {
             $errores[] = "El Usuario no existe";
          }
-
-         // authenticar el usario
       }
 
       // echo "<pre>";

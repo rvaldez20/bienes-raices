@@ -1,11 +1,10 @@
 <?php
-   session_start();
+require '../includes/funciones.php';
+$auth = isAuth();
 
-   $auth = $_SESSION['login'];
-
-   if(!$auth) {
-      header('Location: /');
-   }
+if(!$auth) {
+   header('Location: /');
+}
 
    // Base de datos conexion
    require '../includes/config/database.php';
@@ -46,7 +45,6 @@
    }
 
    // Incluye el template
-   require '../includes/funciones.php';
    incluirTemplate('header');
 ?>
 
